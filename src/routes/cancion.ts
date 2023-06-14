@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { CountryModel, ICountry } from "../models/country";
+import { CancionModel, ICancion } from "../models/cancion";
 
 const routes = Router();
 
 routes.get("/", async (req, res) => {
   try {
-    const countries: ICountry[] = await CountryModel.find().exec();
+    const countries: ICancion[] = await CancionModel.find().exec();
     return res.json(countries);
   } catch (error) {
     console.error(error);
@@ -15,20 +15,20 @@ routes.get("/", async (req, res) => {
 
 routes.post("/", async (req, res) => {
   try {
-    const country: ICountry = req.body;
+    const Cancion: ICancion = req.body;
 
-    const countryExists = await CountryModel.findOne({
-      name: country.name,
+    const CancionExists = await CancionModel.findOne({
+      name: Cancion.name,
     }).exec();
 
-    if (countryExists) {
+    if (CancionExists) {
       return res
         .status(409)
-        .json({ error: "There is already another country with this name" });
+        .json({ error: "There is already another Cancion with this name" });
     }
 
-    const newCountry = await CountryModel.create(country);
-    return res.status(201).json(newCountry);
+    const newCancion = await CancionModel.create(Cancion);
+    return res.status(201).json(newCancion);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Sorry, something went wrong :/" });
